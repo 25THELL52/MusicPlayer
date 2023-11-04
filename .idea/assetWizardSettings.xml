@@ -408,7 +408,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../EL%20HERD%20HANANE/AppData/Local/Android/Sdk/icons/material/materialicons/music_note/baseline_music_note_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../EL%20HERD%20HANANE/AppData/Local/Android/Sdk/icons/material/materialicons/shuffle/baseline_shuffle_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -419,7 +419,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="6442bb" />
-                            <entry key="outputName" value="baseline_music_note_24" />
+                            <entry key="outputName" value="baseline_shuffle_24" />
                             <entry key="sourceFile" value="C:\Users\EL HERD HANANE\Desktop\Android\play-button.svg" />
                           </map>
                         </option>

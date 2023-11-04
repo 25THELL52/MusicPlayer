@@ -3,16 +3,16 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <device id="pixel_4_xl" />
+        <device id="Nexus 5X" />
+        <device id="Nexus 6P" />
+        <device id="Nexus 6" />
+        <device id="pixel_xl" />
+        <device id="pixel_4a" />
+        <device id="pixel_4" />
+        <device id="pixel_5" />
+        <device id="pixel_6_pro" />
         <device id="pixel_6" />
-        <device id="pixel_c" />
-        <device id="_device_class_phone" />
-        <device id="13.5in Freeform" />
-        <device id="10.1in WXGA (Tablet)" />
-        <device id="7in WSVGA (Tablet)" />
-        <device id="4.7in WXGA" />
-        <device id="3.7 FWVGA slider" />
-        <device id="3.7in WVGA (Nexus One)" />
+        <device id="pixel_4_xl" />
       </config>
     </shared>
   </component>
@@ -25,17 +25,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd885b55-b35e-44b4-8aba-5d6709cda670" name="Default Changelist" comment="initial commit">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+    <list default="true" id="bd885b55-b35e-44b4-8aba-5d6709cda670" name="Default Changelist" comment="seekBar functionality">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/color/shuffle_repeat_bg.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_repeat_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_repeat_active_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_shuffle_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_shuffle_active_30.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MyApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MyPlayerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MyPlayerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_pause_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_pause_24.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_play_arrow_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_play_arrow_24.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_skip_next_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_skip_next_24.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_skip_previous_24.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/baseline_skip_previous_24.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +57,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="layoutResourceFile" />
-        <option value="resourceFile" />
         <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -79,7 +84,7 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/Public/RanDogPic",
+    "last_opened_file_path": "C:/Users/Public/MusicPlayer/app/src/main/res/drawable",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
@@ -88,7 +93,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Public\MusicPlayer\app\src\main\res\drawable" />
       <recent name="C:\Users\Public\MusicPlayer\app\src\main\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Public\MusicPlayer\app\src\main\res\color" />
     </key>
   </component>
   <component name="RunManager">
@@ -184,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698190136581</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="seekBar functionality">
+      <created>1699122653043</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699122653043</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -203,6 +219,7 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="seekBar functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="seekBar functionality" />
   </component>
 </project>

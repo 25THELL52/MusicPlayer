@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MyPlayerService extends Service {
@@ -39,6 +40,9 @@ public class MyPlayerService extends Service {
     MyApplication application;
     SeekBar seekBar;
     int progress;
+
+    boolean isOnRepeat = false;
+    boolean isOnshuffle = false;
 
 
     @Override
@@ -129,6 +133,19 @@ public class MyPlayerService extends Service {
 
 
         }
+        if (intent.getAction() == "shuffle") {
+
+            isOnshuffle = !isOnshuffle;
+            if (isOnshuffle) onShuffle();
+
+
+        }
+        if (intent.getAction() == "repeat") {
+
+            onRepeat();
+
+
+        }
 
 
         Log.i("index", String.valueOf(index));
@@ -137,6 +154,35 @@ public class MyPlayerService extends Service {
 
                 onStartCommand(intent, flags, startId);
 
+    }
+
+    private void onRepeat() {
+        isOnRepeat = !isOnRepeat ;
+    }
+
+    private void onShuffle() {
+
+        if (isplaying) {
+
+            if(getMp()!=null) {
+                int randomIndex = getRandomIndex();
+                getMp().stop();
+
+                application.setMp(null);
+                playsong(randomIndex);
+
+                ispause = false;
+                isplaying = true;
+            }
+
+
+        }
+    }
+
+    private int getRandomIndex() {
+        Random randomInt = new Random();
+        int randomIndex = randomInt.nextInt(listOfSongs.size() - 1);
+        return randomIndex;
     }
 
     private void onSeekBarProgressChanged(int progress) {
@@ -296,7 +342,15 @@ public class MyPlayerService extends Service {
     }
 
     private void onPlaynextsong() {
-        index++;
+
+        if(isOnshuffle) index = getRandomIndex();
+         else {
+            index++;
+            if (index == s) {
+                index = 0;
+
+            }
+        }
 
         if (getMp() != null) {
             getMp().stop();
@@ -305,10 +359,7 @@ public class MyPlayerService extends Service {
 
         }
 
-        if (index == s) {
-            index = 0;
 
-        }
         playsong(index);
         ispause = false;
         isplaying = true;
@@ -351,17 +402,22 @@ public class MyPlayerService extends Service {
     }
 
     private void onPlayPreviousSong() {
+         if(isOnshuffle) index=getRandomIndex();
+
+         else {
+             if (index == 0) {
+                 index = s;
+             }
+             index--;
+         }
+
         if (getMp() != null) {
             getMp().stop();
 
             application.setMp(null);
         }
 
-        if (index == 0) {
-            index = s;
-        }
-        playsong(index - 1);
-        index--;
+        playsong(index);
         ispause = false;
         isplaying = true;
 
@@ -398,13 +454,25 @@ public class MyPlayerService extends Service {
             inputStream.close();
 
             getMp().setOnCompletionListener(mp1 -> {
+                if(isOnRepeat){
+                    playsong(index);
 
-                index++;
-
-                if (index == s) {
-                    index = 0;
                 }
+                else if(isOnshuffle)
+                {index = getRandomIndex();
                 playsong(index);
+                }
+
+
+                else {
+                    index++;
+
+                    if (index == s) {
+                        index = 0;
+                    }
+                    playsong(index);
+
+                }
             });
             getMp().setOnPreparedListener(mp1 -> {
                 onPrepared(mp1);
@@ -461,10 +529,11 @@ public class MyPlayerService extends Service {
 
 
     }
-    public void sendIntent(int index){
+
+    public void sendIntent(int index) {
 
 
-        Intent intent  = new Intent();
+        Intent intent = new Intent();
         intent.setAction("initializeSeekBar");
 
 

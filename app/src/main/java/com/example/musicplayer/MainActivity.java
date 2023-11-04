@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton pause;
     ImageButton next;
 
+    ImageButton shuffle, repeat;
+
     SeekBar seekBar;
     List<MusicFile> musicFiles;
     List<String> listOfSongTitles;
@@ -37,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     ReceiverClassName receiver;
     IntentFilter intentFilter;
     boolean isBroadcastRegistered = false;
-
+    boolean isRepeatActive ;
+    boolean isShuffleActive ;
 
 //public static List<String> listOfSongsClone;
 
@@ -54,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         pause = findViewById(R.id.pause);
         next = findViewById(R.id.next);
         seekBar = findViewById(R.id.seekbar);
+        shuffle=findViewById(R.id.shuffle);
+        repeat=findViewById(R.id.repeat);
+
+        isRepeatActive = false;
+        isShuffleActive =false;
 
         application = (MyApplication) this.getApplication();
         //seekBar.setMax(application.getMp().getDuration());
@@ -146,6 +154,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        shuffle.setOnClickListener(v -> {
+
+            isShuffleActive = ! isShuffleActive;
+            setShuffleImageResource((ImageButton) v);
+            sendIntent("shuffle");
+
+
+        });
+
+        repeat.setOnClickListener( v -> {
+            isRepeatActive = ! isRepeatActive;
+            setRepeatImageResource((ImageButton) v);
+            sendIntent("repeat");
+
+
+        });
+
+    }
+
+    private void setRepeatImageResource(ImageButton v) {
+        if(isRepeatActive) v.setImageResource(R.drawable.baseline_repeat_active_30);
+        else v.setImageResource(R.drawable.baseline_repeat_30);
+    }
+
+    private void setShuffleImageResource(ImageButton v) {
+        if(isShuffleActive) v.setImageResource(R.drawable.baseline_shuffle_active_30);
+        else v.setImageResource(R.drawable.baseline_shuffle_30);
+    }
+
+    private void setColor(boolean isActive, ImageButton imageButton) {
     }
 
     private List<String> getSongTitles() {
@@ -228,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                     if (application.getMp() != null) {
                         seekBar.setProgress(application.getMp().getCurrentPosition());
                         Log.i("message","currentPosition  "+ application.getMp().getCurrentPosition() );
-                        handler.postDelayed(this, 2000);
+                        handler.postDelayed(this, 500);
                     }
                 } catch (Exception e) {
                     seekBar.setProgress(0);
