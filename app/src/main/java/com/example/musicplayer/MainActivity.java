@@ -1,21 +1,23 @@
 package com.example.musicplayer;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
 
-import java.io.File;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +29,17 @@ public class MainActivity extends AppCompatActivity {
     ImageButton previous;
     ImageButton pause;
     ImageButton next;
+
+    SeekBar seekBar;
     List<MusicFile> musicFiles;
     List<String> listOfSongTitles;
-    MyApplication application ;
+    MyApplication application;
+    ReceiverClassName receiver;
+    IntentFilter intentFilter;
+    boolean isBroadcastRegistered = false;
+
+
 //public static List<String> listOfSongsClone;
-
-
 
 
     @Override
@@ -41,12 +48,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         play = findViewById(R.id.play);
         playlist = findViewById(R.id.playlist);
         previous = findViewById(R.id.previous);
         pause = findViewById(R.id.pause);
         next = findViewById(R.id.next);
+        seekBar = findViewById(R.id.seekbar);
+
+        application = (MyApplication) this.getApplication();
+        //seekBar.setMax(application.getMp().getDuration());
+
+
+        // registerReceiver so the application would be addressed by the operating system whenever it receives
+// a broadcast with whose intent action matches the defined action set to the intent filter .
+
+
+        {
+            receiver = new ReceiverClassName();
+            intentFilter = new IntentFilter();
+            intentFilter.addAction("initializeSeekBar");
+            registerReceiver(receiver, intentFilter);
+
+        }
+
 
         //PERMISSIONS :
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -60,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        application= (MyApplication) this.getApplication();
+        application = (MyApplication) this.getApplication();
         musicFiles = application.scanDeviceForMp3Files();
-        listOfSongTitles = getSongTitles() ;
+        listOfSongTitles = getSongTitles();
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(
                 this, R.layout.simple_list_item_1, R.id.tv, listOfSongTitles);
@@ -103,23 +127,42 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                if (fromUser) onSeekBarProgressChanged(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
     }
 
     private List<String> getSongTitles() {
         List<String> list = new ArrayList<>();
-        for(MusicFile file : musicFiles)
-        {
+        for (MusicFile file : musicFiles) {
             list.add(file.getTitle());
         }
         return list;
     }
 
     private void playsongatindex(int position) {
+
+
         Intent intent = new Intent(this, MyPlayerService.class);
         intent.setAction("playsongatindex");
-        intent.putExtra("index",position);
+        intent.putExtra("index", position);
         startService(intent);
-
 
 
     }
@@ -145,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         play.setVisibility(View.VISIBLE);
         pause.setVisibility(View.INVISIBLE);
 
+
         sendIntent("pause");
 
         //   mp.stop();
@@ -156,8 +200,43 @@ public class MainActivity extends AppCompatActivity {
         pause.setVisibility(View.VISIBLE);
         play.setVisibility(View.INVISIBLE);
 
+
         sendIntent("play");
 
+    }
+
+    private void onSeekBarProgressChanged(int progress) {
+
+        Intent intent = new Intent(this, MyPlayerService.class);
+        intent.setAction("seekBarProgressChanged");
+        intent.putExtra("progress", progress);
+        startService(intent);
+
+
+    }
+
+
+    private void initialiseSeekbar() {
+
+
+        seekBar.setMax(application.getMp().getDuration());
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (application.getMp() != null) {
+                        seekBar.setProgress(application.getMp().getCurrentPosition());
+                        Log.i("message","currentPosition  "+ application.getMp().getCurrentPosition() );
+                        handler.postDelayed(this, 2000);
+                    }
+                } catch (Exception e) {
+                    seekBar.setProgress(0);
+                }
+            }
+
+
+        }, 0);
     }
 
     private void sendIntent(String action) {
@@ -169,10 +248,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public class ReceiverClassName extends BroadcastReceiver {
+
+        // what the activity does when you receive a broadcast with the defined intent filter action is in the body of the following OnReceive method
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.i("message", "broadcast was properly received");
+
+            initialiseSeekbar();
+            //unregisterReceiver(receiver);
+            //isBroadcastRegistered = false;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         //sendIntent("destroy");
-        Log.i("lifecycle","onDestroy in activity");
+        Log.i("lifecycle", "onDestroy in activity");
 
         super.onDestroy();
 
@@ -182,16 +276,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         //sendIntent("isplaying?");
 
+        if (receiver != null && isBroadcastRegistered == true) {
+            unregisterReceiver(receiver);
+            isBroadcastRegistered = false;
+        }
         super.onPause();
     }
 
     @Override
     protected void onStop() {
 
-            sendIntent("stop");
-            Log.i("lifecycle", "onStop in activity");
+
+        sendIntent("stop");
+        Log.i("lifecycle", "onStop in activity");
 
         super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("message", "onStart()");
+        if (receiver != null && !isBroadcastRegistered) {
+            registerReceiver(receiver, intentFilter);
+            isBroadcastRegistered = true;
+        }
     }
 
 

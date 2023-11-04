@@ -3,6 +3,7 @@ package com.example.musicplayer;
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,11 +22,17 @@ public class MyApplication extends Application {
 
     }
 
+    MediaPlayer mp = null ;
 
+    public MediaPlayer getMp() {
+        return mp;
+    }
 
+    public void setMp(MediaPlayer mp) {
+        this.mp = mp;
+    }
 
-
-     List<MusicFile> scanDeviceForMp3Files(){
+    List<MusicFile> scanDeviceForMp3Files(){
 
         //String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
         String[] projection = {

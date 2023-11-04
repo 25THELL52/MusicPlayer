@@ -14,10 +14,8 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/previous_next_button_background"
         android:src="@drawable/baseline_skip_next_24"
         app:layout_constraintBottom_toBottomOf="@id/guideline3"
@@ -33,10 +31,8 @@
         android:layout_height="0dp"
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/previous_next_button_background"
         android:src="@drawable/baseline_skip_previous_24"
         app:layout_constraintBottom_toBottomOf="@id/guideline3"
@@ -88,12 +84,18 @@
         android:layout_marginBottom="24dp"
         android:divider="@color/purple_500"
         android:dividerHeight="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/seekbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_constraintVertical_bias="1.0" />
 
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        android:layout_marginBottom="8dp"/>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
