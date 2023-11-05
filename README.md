@@ -3,7 +3,7 @@
 
 ## Features:
 
-### Notifications, Services, RecyclerView, Intents,BroadcastReceiver, permissions, SeekBar...
+### Notifications, Services, MediaPlayer,Intents,BroadcastReceiver, Permissions, RecyclerView, SeekBar...
 
 
 #
