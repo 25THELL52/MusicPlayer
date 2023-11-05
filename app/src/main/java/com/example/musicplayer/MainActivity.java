@@ -339,7 +339,32 @@ public class MainActivity extends AppCompatActivity {
             registerReceiver(receiver, intentFilter);
             isBroadcastRegistered = true;
         }
+        if(application.getMp()!= null)
+
+        {           Log.i("message", "reinitialized seekBar from onStart");
+
+            initialiseSeekbar();
+            if(application.getMp().isPlaying()) {
+
+                play.setVisibility(View.INVISIBLE);
+                pause.setVisibility(View.VISIBLE);
+
+            }
+        }
+
     }
 
 
+    @Override
+    protected void onRestart() {
+        Log.i("message", "onRestart()");
+
+        if(application.getMp()!= null)
+
+        {           Log.i("message", "reinitialized seekBar from onRestart");
+
+            initialiseSeekbar();
+        }
+        super.onRestart();
+    }
 }

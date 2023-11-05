@@ -162,22 +162,28 @@ public class MyPlayerService extends Service {
 
     private void onShuffle() {
 
-        if (isplaying) {
+        //if (isplaying) {
 
-            if(getMp()!=null) {
-                int randomIndex = getRandomIndex();
+        if(listOfSongs.size()>0) {
+            int randomIndex = getRandomIndex();
+
+            if (getMp() != null) {
                 getMp().stop();
-
                 application.setMp(null);
                 playsong(randomIndex);
 
-                ispause = false;
-                isplaying = true;
+            } else {
+                playsong(randomIndex);
+
             }
 
-
+            ispause = false;
+            isplaying = true;
         }
     }
+
+
+        //}
 
     private int getRandomIndex() {
         Random randomInt = new Random();
