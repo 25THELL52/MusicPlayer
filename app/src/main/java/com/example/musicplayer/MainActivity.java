@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
     List<MusicFile> musicFiles;
     List<String> listOfSongTitles;
     MyApplication application;
-    ReceiverClassName receiver;
+    ReceiverMainActivity receiver;
     IntentFilter intentFilter;
     boolean isBroadcastRegistered = false;
-    boolean isRepeatActive ;
-    boolean isShuffleActive ;
+    boolean isRepeatActive;
+    boolean isShuffleActive;
 
-    Runnable myRunnable ;
+    Runnable myRunnable;
     Handler handler;
 
 //public static List<String> listOfSongsClone;
@@ -68,22 +68,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         play = findViewById(R.id.play);
         playlist = findViewById(R.id.playlist);
         previous = findViewById(R.id.previous);
         pause = findViewById(R.id.pause);
         next = findViewById(R.id.next);
         seekBar = findViewById(R.id.seekbar);
-        shuffle=findViewById(R.id.shuffle);
-        repeat=findViewById(R.id.repeat);
+        shuffle = findViewById(R.id.shuffle);
+        repeat = findViewById(R.id.repeat);
 
         isRepeatActive = false;
-        isShuffleActive =false;
+        isShuffleActive = false;
 
         application = (MyApplication) this.getApplication();
         //seekBar.setMax(application.getMp().getDuration());
-
 
 
         // registerReceiver so the application would be addressed by the operating system whenever it receives
@@ -91,16 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         {
-            receiver = new ReceiverClassName();
+            receiver = new ReceiverMainActivity();
             intentFilter = new IntentFilter();
             intentFilter.addAction("initializeSeekBar");
             registerReceiver(receiver, intentFilter);
 
         }
-
-
-
-
 
 
         application = (MyApplication) this.getApplication();
@@ -111,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 this, R.layout.simple_list_item_1, R.id.tv, listOfSongTitles);
 
         playlist.setAdapter(arrayAdapter);
-
 
 
         playlist.setOnItemClickListener(
@@ -169,15 +162,15 @@ public class MainActivity extends AppCompatActivity {
 
         shuffle.setOnClickListener(v -> {
 
-            isShuffleActive = ! isShuffleActive;
+            isShuffleActive = !isShuffleActive;
             setShuffleImageResource((ImageButton) v);
             sendIntent("shuffle");
 
 
         });
 
-        repeat.setOnClickListener( v -> {
-            isRepeatActive = ! isRepeatActive;
+        repeat.setOnClickListener(v -> {
+            isRepeatActive = !isRepeatActive;
             setRepeatImageResource((ImageButton) v);
             sendIntent("repeat");
 
@@ -187,12 +180,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRepeatImageResource(ImageButton v) {
-        if(isRepeatActive) v.setImageResource(R.drawable.baseline_repeat_active_30);
+        if (isRepeatActive) v.setImageResource(R.drawable.baseline_repeat_active_30);
         else v.setImageResource(R.drawable.baseline_repeat_30);
     }
 
     private void setShuffleImageResource(ImageButton v) {
-        if(isShuffleActive) v.setImageResource(R.drawable.baseline_shuffle_active_30);
+        if (isShuffleActive) v.setImageResource(R.drawable.baseline_shuffle_active_30);
         else v.setImageResource(R.drawable.baseline_shuffle_30);
     }
 
@@ -270,7 +263,9 @@ public class MainActivity extends AppCompatActivity {
     private void initialiseSeekbar() {
 
 
-        if(handler!= null) {handler.removeCallbacks(myRunnable);}
+        if (handler != null) {
+            handler.removeCallbacks(myRunnable);
+        }
         seekBar.setMax(application.getMp().getDuration());
         handler = new Handler();
         myRunnable = new Runnable() {
@@ -279,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (application.getMp() != null) {
                         seekBar.setProgress(application.getMp().getCurrentPosition());
-                        Log.i("message","currentPosition  "+ application.getMp().getCurrentPosition() );
+                        Log.i("message", "currentPosition  " + application.getMp().getCurrentPosition());
                         handler.postDelayed(this, 1000);
                     }
                 } catch (Exception e) {
@@ -302,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class ReceiverClassName extends BroadcastReceiver {
+    public class ReceiverMainActivity extends BroadcastReceiver {
 
         // what the activity does when you receive a broadcast with the defined intent filter action is in the body of the following OnReceive method
         @Override
@@ -311,7 +306,9 @@ public class MainActivity extends AppCompatActivity {
             Log.i("message", "broadcast was properly received");
 
 
-                initialiseSeekbar();
+            play.setVisibility(View.INVISIBLE);
+            pause.setVisibility(View.VISIBLE);
+            initialiseSeekbar();
 
             //unregisterReceiver(receiver);
             //isBroadcastRegistered = false;
@@ -322,14 +319,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         //sendIntent("destroy");
         Log.i("lifecycle", "onDestroy in activity");
-
+        if(application.getMp()!= null) application.getMp().release();
         super.onDestroy();
 
     }
 
     @Override
     protected void onPause() {
-        //sendIntent("isplaying?");
 
         if (receiver != null && isBroadcastRegistered == true) {
             unregisterReceiver(receiver);
@@ -358,15 +354,18 @@ public class MainActivity extends AppCompatActivity {
             registerReceiver(receiver, intentFilter);
             isBroadcastRegistered = true;
         }
-        if(application.getMp()!= null)
+        if (application.getMp() != null) {
+            Log.i("message", "reinitialized seekBar from onStart");
+            initialiseSeekbar();
+            if (application.getMp().isPlaying()) {
 
-        {           Log.i("message", "reinitialized seekBar from onStart");
-
-            if(application.getMp().isPlaying()) {
-
-                initialiseSeekbar();
                 play.setVisibility(View.INVISIBLE);
                 pause.setVisibility(View.VISIBLE);
+
+            } else {
+
+                play.setVisibility(View.VISIBLE);
+                pause.setVisibility(View.INVISIBLE);
 
             }
         }
@@ -374,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /*
     @Override
     protected void onRestart() {
         Log.i("message", "onRestart()");
@@ -386,4 +386,6 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onRestart();
     }
+
+     */
 }
