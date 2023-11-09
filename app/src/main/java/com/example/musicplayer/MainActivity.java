@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     boolean isRepeatActive ;
     boolean isShuffleActive ;
 
+    Runnable myRunnable ;
+    Handler handler;
+
 //public static List<String> listOfSongsClone;
 
 
@@ -49,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //PERMISSIONS :
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+                return;
+            }
+
+        }
+
 
 
         play = findViewById(R.id.play);
@@ -67,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         //seekBar.setMax(application.getMp().getDuration());
 
 
+
         // registerReceiver so the application would be addressed by the operating system whenever it receives
 // a broadcast with whose intent action matches the defined action set to the intent filter .
 
@@ -80,16 +99,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //PERMISSIONS :
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
-                return;
-            }
-        }
 
 
         application = (MyApplication) this.getApplication();
@@ -100,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 this, R.layout.simple_list_item_1, R.id.tv, listOfSongTitles);
 
         playlist.setAdapter(arrayAdapter);
+
+
 
         playlist.setOnItemClickListener(
 
@@ -257,16 +270,17 @@ public class MainActivity extends AppCompatActivity {
     private void initialiseSeekbar() {
 
 
+        if(handler!= null) {handler.removeCallbacks(myRunnable);}
         seekBar.setMax(application.getMp().getDuration());
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        handler = new Handler();
+        myRunnable = new Runnable() {
             @Override
             public void run() {
                 try {
                     if (application.getMp() != null) {
                         seekBar.setProgress(application.getMp().getCurrentPosition());
                         Log.i("message","currentPosition  "+ application.getMp().getCurrentPosition() );
-                        handler.postDelayed(this, 500);
+                        handler.postDelayed(this, 1000);
                     }
                 } catch (Exception e) {
                     seekBar.setProgress(0);
@@ -274,7 +288,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-        }, 0);
+        };
+        handler.postDelayed(myRunnable, 0);
     }
 
     private void sendIntent(String action) {
@@ -295,7 +310,9 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i("message", "broadcast was properly received");
 
-            initialiseSeekbar();
+
+                initialiseSeekbar();
+
             //unregisterReceiver(receiver);
             //isBroadcastRegistered = false;
         }
@@ -317,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
         if (receiver != null && isBroadcastRegistered == true) {
             unregisterReceiver(receiver);
             isBroadcastRegistered = false;
+
         }
         super.onPause();
     }
@@ -324,11 +342,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
 
-
+        super.onStop();
         sendIntent("stop");
         Log.i("lifecycle", "onStop in activity");
+        handler.removeCallbacks(myRunnable);
+        handler = null;
 
-        super.onStop();
     }
 
     @Override
@@ -343,9 +362,9 @@ public class MainActivity extends AppCompatActivity {
 
         {           Log.i("message", "reinitialized seekBar from onStart");
 
-            initialiseSeekbar();
             if(application.getMp().isPlaying()) {
 
+                initialiseSeekbar();
                 play.setVisibility(View.INVISIBLE);
                 pause.setVisibility(View.VISIBLE);
 

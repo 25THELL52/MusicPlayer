@@ -269,8 +269,7 @@ public class MyPlayerService extends Service {
         } else {
 
             Notification.Builder builder = new Notification.Builder(this)
-                    .setContentTitle("Music player")
-                    .setContentText("playing: " + listOfSongs.get(index).getTitle())
+                    .setContentText("MusicPlayer")
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.tune)
                     .setPriority(Notification.PRIORITY_MAX)

@@ -79,7 +79,7 @@
         android:backgroundTint="#2A3700B3"
         android:src="@drawable/baseline_shuffle_30"
         app:layout_constraintBottom_toTopOf="@id/guideline"
-        app:layout_constraintEnd_toStartOf="@id/repeat" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/repeat"
@@ -93,7 +93,7 @@
         android:src="@drawable/baseline_repeat_30"
 
         app:layout_constraintBottom_toTopOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
         android:id="@+id/playlist"
@@ -121,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="@id/shuffle"
         app:layout_constraintTop_toTopOf="@id/shuffle"
         app:layout_constraintEnd_toStartOf="@id/shuffle"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/repeat"
         />
 
     <androidx.constraintlayout.widget.Guideline
