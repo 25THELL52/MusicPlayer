@@ -25,7 +25,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd885b55-b35e-44b4-8aba-5d6709cda670" name="Default Changelist" comment="MainActivity lifecycle methods modifications">
+    <list default="true" id="bd885b55-b35e-44b4-8aba-5d6709cda670" name="Default Changelist" comment="ReceiverMainActivity modifications">
       <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/musicplayer/MainActivity.java" afterDir="false" />
@@ -35,7 +35,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[056fd002]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\EL HERD HANANE\.android\avd\Nexus_4_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -209,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699561330385</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ReceiverMainActivity modifications">
+      <created>1699564889625</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699564889625</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -232,6 +239,7 @@
     <MESSAGE value="shuffle and repeat functionality" />
     <MESSAGE value="ui modifications" />
     <MESSAGE value="MainActivity lifecycle methods modifications" />
-    <option name="LAST_COMMIT_MESSAGE" value="MainActivity lifecycle methods modifications" />
+    <MESSAGE value="ReceiverMainActivity modifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="ReceiverMainActivity modifications" />
   </component>
 </project>

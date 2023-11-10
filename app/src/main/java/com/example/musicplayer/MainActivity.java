@@ -1,5 +1,6 @@
 package com.example.musicplayer;
 
+
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     Runnable myRunnable;
     Handler handler;
+    MainActivity activity;
 
 //public static List<String> listOfSongsClone;
 
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         application = (MyApplication) this.getApplication();
         //seekBar.setMax(application.getMp().getDuration());
+         activity =new MainActivity() ;
 
 
         // registerReceiver so the application would be addressed by the operating system whenever it receives
@@ -319,7 +323,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         //sendIntent("destroy");
         Log.i("lifecycle", "onDestroy in activity");
-        if(application.getMp()!= null) application.getMp().release();
+
+        if (handler != null) {
+            handler.removeCallbacks(myRunnable);
+            handler = null;
+        }
+        if (application.getMp() != null) {
+            application.getMp().stop();
+            application.getMp().release();
+            application.setMp(null);
+        }
         super.onDestroy();
 
     }
@@ -372,8 +385,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
 
-    /*
+        if (handler != null) {
+            handler.removeCallbacks(myRunnable);
+            handler = null;
+        }
+        if (application.getMp() != null) {
+            application.getMp().stop();
+            application.getMp().release();
+            application.setMp(null);
+        }
+        super.onBackPressed();
+
+
+    }
+
+/*
     @Override
     protected void onRestart() {
         Log.i("message", "onRestart()");
