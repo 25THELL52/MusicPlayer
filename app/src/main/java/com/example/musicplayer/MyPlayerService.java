@@ -32,7 +32,7 @@ public class MyPlayerService extends Service {
     private static final String CHANNEL_ID = "AS8452269";
     private static final String CHANNEL_NAME = "playingmusicchannel";
     int s;
-    int index = 0;
+    static int index = 0;
     boolean ispause;
     Boolean isplaying = false;
     int length;
@@ -540,7 +540,8 @@ public class MyPlayerService extends Service {
 
         Intent intent = new Intent();
         intent.setAction("initializeSeekBar");
-
+        Log.i("message","index send to the broadcast receiver"+ index);
+        intent.putExtra("index",index);
 
         sendBroadcast(intent);
     }

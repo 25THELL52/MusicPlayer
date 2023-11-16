@@ -5,7 +5,7 @@
 
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/purple_50</item>
 
         <!-- Customize your theme here. -->
     </style>

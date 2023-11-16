@@ -11,6 +11,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -80,6 +81,8 @@ public class MyApplication extends Application {
                 ((Cursor) cursor).close();
             }
         }
+
+        Collections.sort(mp3Files, new MusicFile.MusicFileComparator());
         return mp3Files;
     }
 

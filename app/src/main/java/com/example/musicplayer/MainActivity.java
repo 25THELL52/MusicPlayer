@@ -12,13 +12,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     // MediaPlayer mp;
-    ListView playlist;
+    RecyclerView playlist;
     ImageButton play;
     ImageButton previous;
     ImageButton pause;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
     List<MusicFile> musicFiles;
     List<String> listOfSongTitles;
+    MusicItemAdapter musicItemAdapter;
     MyApplication application;
     ReceiverMainActivity receiver;
     IntentFilter intentFilter;
@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     Runnable myRunnable;
     Handler handler;
     MainActivity activity;
+    View previousClickedView;
+    int currentPlayingIndex;
 
 //public static List<String> listOfSongsClone;
 
@@ -105,23 +107,15 @@ public class MainActivity extends AppCompatActivity {
         musicFiles = application.scanDeviceForMp3Files();
         listOfSongTitles = getSongTitles();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(
-                this, R.layout.simple_list_item_1, R.id.tv, listOfSongTitles);
+         musicItemAdapter = new MusicItemAdapter(
+                this,musicFiles);
 
-        playlist.setAdapter(arrayAdapter);
+        playlist.setLayoutManager(new LinearLayoutManager(this));
+
+        playlist.setAdapter(musicItemAdapter);
 
 
-        playlist.setOnItemClickListener(
 
-
-                (parent, view, position, id) -> {
-
-                    pause.setVisibility(View.VISIBLE);
-                    play.setVisibility(View.INVISIBLE);
-                    playsongatindex(position);
-
-                }
-        );
 
         play.setOnClickListener(v -> {
 
@@ -182,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void setRepeatImageResource(ImageButton v) {
         if (isRepeatActive) v.setImageResource(R.drawable.baseline_repeat_active_30);
@@ -300,6 +296,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onItemClicked(int position) {
+
+        pause.setVisibility(View.VISIBLE);
+        play.setVisibility(View.INVISIBLE);
+        playsongatindex(position);
+    }
+
 
     public class ReceiverMainActivity extends BroadcastReceiver {
 
@@ -309,14 +312,33 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i("message", "broadcast was properly received");
 
+            currentPlayingIndex = intent.getIntExtra("index",0);
+
+            Log.i("message", "currentPlayingIndex: "+ currentPlayingIndex);
 
             play.setVisibility(View.INVISIBLE);
             pause.setVisibility(View.VISIBLE);
             initialiseSeekbar();
+            setOnPlayItemColor(currentPlayingIndex);
+            playlist.scrollToPosition(MyPlayerService.index);
+
+
 
             //unregisterReceiver(receiver);
             //isBroadcastRegistered = false;
         }
+    }
+
+    private void setOnPlayItemColor(int currentPlayingIndex) {
+        int i;
+        for(i=0; i<musicFiles.size();i++){
+
+            if(i!=currentPlayingIndex) musicFiles.get(i).setOnPlay(false);
+            else  musicFiles.get(i).setOnPlay(true);
+        }
+
+        musicItemAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -340,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
 
-        if (receiver != null && isBroadcastRegistered == true) {
+        if (receiver != null && isBroadcastRegistered) {
             unregisterReceiver(receiver);
             isBroadcastRegistered = false;
 
@@ -381,6 +403,8 @@ public class MainActivity extends AppCompatActivity {
                 pause.setVisibility(View.INVISIBLE);
 
             }
+           setOnPlayItemColor(MyPlayerService.index);
+            playlist.scrollToPosition(MyPlayerService.index);
         }
 
     }
