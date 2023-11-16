@@ -8,5 +8,7 @@
 
 #
 <img src="https://github.com/25THELL52/MusicPlayer/assets/79938851/b0e6df13-1391-4c54-bea6-5f180c7e8fea" width=30% height=30%>
-<img src="https://github.com/25THELL52/MusicPlayer/assets/79938851/ac66be2d-33ae-4530-90fe-5bfacd36efe0" width=30% height=30%>
+<img src="https://github.com/25THELL52/MusicPlayer/assets/79938851/b0b63a3d-191b-431d-9506-52dd3f15c173" width=30% height=30%>
+
+
 <img src="https://github.com/25THELL52/Guess_country_Flag/assets/79938851/fab8f54c-453a-4cf9-9bbb-1af9ed0ab7f3" width=30% height=30%>
