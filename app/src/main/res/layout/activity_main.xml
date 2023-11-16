@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="#2A3700B3"
+        android:backgroundTint="#0F0222"
         android:src="@drawable/baseline_shuffle_30"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -88,7 +88,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="#2A3700B3"
+        android:backgroundTint="#0F0222"
 
         android:src="@drawable/baseline_repeat_30"
 
@@ -99,12 +99,20 @@
         android:id="@+id/playlist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+
+
+
+        android:clipToOutline="true"
+        android:clipChildren="true"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/shuffle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginLeft="5dp" />
 
     <SeekBar
         android:id="@+id/seekbar"

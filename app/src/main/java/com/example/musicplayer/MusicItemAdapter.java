@@ -45,12 +45,21 @@ public class MusicItemAdapter extends RecyclerView.Adapter<MusicItemAdapter.Musi
         holder.textView.setText(musicFiles.get(position).getTitle());
 
         if (!musicFiles.get(position).getOnPlay()) {
+            if (position == 0) holder.itemView.setBackground(mainActivity.getResources().getDrawable(R.drawable.rv_bg_top_item));
+            else if (position==(getItemCount()-1)) holder.itemView.setBackground(mainActivity.getResources().getDrawable(R.drawable.rv_bg_bottom_item));
+            else holder.itemView.setBackgroundColor(mainActivity.getResources().getColor(R.color.black));
+
             holder.textView.setTextColor(mainActivity.getResources().getColor(R.color.purple_50));
-            holder.itemView.setBackgroundColor(mainActivity.getResources().getColor(R.color.black));
-        }
-        else{
+
+        } else {
+
+            if (position == 0) holder.itemView.setBackground(mainActivity.getResources().getDrawable(R.drawable.rv_bg_top_item_on_play));
+            else if (position==(getItemCount()-1)) holder.itemView.setBackground(mainActivity.getResources().getDrawable(R.drawable.rv_bg_bottom_item_on_play));
+
+            else holder.itemView.setBackgroundColor(mainActivity.getResources().getColor(R.color.purple_100));
+
             holder.textView.setTextColor(mainActivity.getResources().getColor(R.color.black));
-            holder.itemView.setBackgroundColor(mainActivity.getResources().getColor(R.color.purple_100));
+
         }
         holder.itemView.requestFocus();
         holder.itemView.setOnClickListener(v -> {
